@@ -6,18 +6,34 @@ using WasiuAbiolaTest.Models;
 namespace WasiuAbiolaTest.Services
 {
 
-    //  THINGS I COULD IMPROVE::
-
-    //  HAVE A GENERIC RESPONSE HELPER
-    //  USE A REAL DATABASE
-    //  IMPLEMENT LOCKING FOR TRANSACTION
-    //  USE ROW VERSION 
-    //  ADD LOGGING
-    //  ADD MORE TABLES LIKE TRANSACTION AND HAVE THE LIMITS ON A SEPERATE PLACE
-    //  UPDATE TRANSACTION STATUS AS WELL IN THE DATABASE
-
+    
     public class TransferService : ITransferService
     {
+        //  THINGS I COULD IMPROVE::
+
+        //  HAVE A GENERIC RESPONSE HELPER
+        //  USE A REAL DATABASE
+        //  IMPLEMENT LOCKING FOR TRANSACTION
+        //  USE ROW VERSION 
+        //  ADD LOGGING
+        //  ADD MORE TABLES LIKE TRANSACTION AND HAVE THE LIMITS ON A SEPERATE PLACE
+        //  UPDATE TRANSACTION STATUS AS WELL IN THE DATABASE
+        //  
+
+        public User GetTestUser(long id)
+        {
+            var sampleeUser = new List<User>
+            {
+                new User { UserId = 1, WalletBalance = 10000m, DailyTransferLimit = 5000m, TransferredToday = 0m },
+                new User { UserId = 2, WalletBalance = 5000m, DailyTransferLimit = 3000m, TransferredToday = 1000m },
+                new User { UserId = 3, WalletBalance = 500m, DailyTransferLimit = 2000m, TransferredToday = 0m },
+                new User { UserId = 4, WalletBalance = 0m, DailyTransferLimit = 1000m, TransferredToday = 0m }
+            };
+
+            return sampleeUser.Where(x => x.UserId == id).FirstOrDefault();
+        }
+
+
         public async Task<TransferResponse> TransferAsync(TransferRequest request)
         {
             try
@@ -110,17 +126,6 @@ namespace WasiuAbiolaTest.Services
         }
 
 
-        public User GetTestUser(long id)
-        {
-            var sampleeUser = new List<User>
-            {
-                new User { UserId = 1, WalletBalance = 10000m, DailyTransferLimit = 5000m, TransferredToday = 0m },
-            new User { UserId = 2, WalletBalance = 5000m, DailyTransferLimit = 3000m, TransferredToday = 1000m },
-            new User { UserId = 3, WalletBalance = 500m, DailyTransferLimit = 2000m, TransferredToday = 0m },
-            new User { UserId = 4, WalletBalance = 0m, DailyTransferLimit = 1000m, TransferredToday = 0m }
-            };
-
-            return sampleeUser.Where(x => x.UserId == id).FirstOrDefault();
-        }
+        
     }
 }

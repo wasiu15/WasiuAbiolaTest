@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using WasiuAbiolaTest.Dtos;
+using WasiuAbiolaTest.Interfaces;
 
 namespace WasiuAbiolaTest.Controllers
 {
@@ -8,11 +10,18 @@ namespace WasiuAbiolaTest.Controllers
     [ApiController]
     public class TransfersController : ControllerBase
     {
-        [HttpPost("transfer")]
-        public IActionResult TransferAsync([FromBody] TransferRequest request)
-        {
+        private readonly ITransferService _transferService;
 
-            return Ok(new { message = "Transfer successful" });
+        public TransfersController(ITransferService transferService)
+        {
+            _transferService = transferService;
+        }
+        [HttpPost("transfer")]
+        public async Task<IActionResult> TransferAsync([FromBody] TransferRequest request)
+        {
+            var transfer = await _transferService.TransferAsync(request);
+
+            return Ok(transfer);
         }
     }
 }
